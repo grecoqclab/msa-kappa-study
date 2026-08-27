@@ -1,0 +1,362 @@
+[
+  {
+    "item": "Adhesion",
+    "partId": "NG_1",
+    "path": "Adhesion/NG/1.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "NG_10",
+    "path": "Adhesion/NG/10.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "NG_2",
+    "path": "Adhesion/NG/2.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "NG_3",
+    "path": "Adhesion/NG/3.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "NG_4",
+    "path": "Adhesion/NG/4.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "NG_5",
+    "path": "Adhesion/NG/5.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "NG_6",
+    "path": "Adhesion/NG/6.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "NG_7",
+    "path": "Adhesion/NG/7.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "NG_8",
+    "path": "Adhesion/NG/8.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "NG_9",
+    "path": "Adhesion/NG/9.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "OK_1",
+    "path": "Adhesion/OK/1.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "OK_10",
+    "path": "Adhesion/OK/10.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "OK_2",
+    "path": "Adhesion/OK/2.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "OK_3",
+    "path": "Adhesion/OK/3.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "OK_4",
+    "path": "Adhesion/OK/4.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "OK_5",
+    "path": "Adhesion/OK/5.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "OK_6",
+    "path": "Adhesion/OK/6.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "OK_7",
+    "path": "Adhesion/OK/7.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "OK_8",
+    "path": "Adhesion/OK/8.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "OK_9",
+    "path": "Adhesion/OK/9.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "三角形_1",
+    "path": "Adhesion/三角形/1.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "三角形_10",
+    "path": "Adhesion/三角形/10.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "三角形_2",
+    "path": "Adhesion/三角形/2.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "三角形_3",
+    "path": "Adhesion/三角形/3.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "三角形_4",
+    "path": "Adhesion/三角形/4.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "三角形_5",
+    "path": "Adhesion/三角形/5.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "三角形_6",
+    "path": "Adhesion/三角形/6.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "三角形_7",
+    "path": "Adhesion/三角形/7.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "三角形_8",
+    "path": "Adhesion/三角形/8.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Adhesion",
+    "partId": "三角形_9",
+    "path": "Adhesion/三角形/9.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "NG_1",
+    "path": "Resolution/NG/1.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "NG_10",
+    "path": "Resolution/NG/10.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "NG_2",
+    "path": "Resolution/NG/2.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "NG_3",
+    "path": "Resolution/NG/3.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "NG_4",
+    "path": "Resolution/NG/4.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "NG_5",
+    "path": "Resolution/NG/5.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "NG_6",
+    "path": "Resolution/NG/6.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "NG_7",
+    "path": "Resolution/NG/7.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "NG_8",
+    "path": "Resolution/NG/8.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "NG_9",
+    "path": "Resolution/NG/9.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "OK_1",
+    "path": "Resolution/OK/1.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Resolution",
+    "partId": "OK_10",
+    "path": "Resolution/OK/10.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Resolution",
+    "partId": "OK_2",
+    "path": "Resolution/OK/2.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Resolution",
+    "partId": "OK_3",
+    "path": "Resolution/OK/3.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Resolution",
+    "partId": "OK_4",
+    "path": "Resolution/OK/4.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Resolution",
+    "partId": "OK_5",
+    "path": "Resolution/OK/5.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Resolution",
+    "partId": "OK_6",
+    "path": "Resolution/OK/6.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Resolution",
+    "partId": "OK_7",
+    "path": "Resolution/OK/7.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Resolution",
+    "partId": "OK_8",
+    "path": "Resolution/OK/8.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Resolution",
+    "partId": "OK_9",
+    "path": "Resolution/OK/9.jpg",
+    "standard": "OK"
+  },
+  {
+    "item": "Resolution",
+    "partId": "三角形_1",
+    "path": "Resolution/三角形/1.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "三角形_10",
+    "path": "Resolution/三角形/10.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "三角形_2",
+    "path": "Resolution/三角形/2.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "三角形_3",
+    "path": "Resolution/三角形/3.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "三角形_4",
+    "path": "Resolution/三角形/4.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "三角形_5",
+    "path": "Resolution/三角形/5.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "三角形_6",
+    "path": "Resolution/三角形/6.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "三角形_7",
+    "path": "Resolution/三角形/7.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "三角形_8",
+    "path": "Resolution/三角形/8.jpg",
+    "standard": "NG"
+  },
+  {
+    "item": "Resolution",
+    "partId": "三角形_9",
+    "path": "Resolution/三角形/9.jpg",
+    "standard": "NG"
+  }
+]
