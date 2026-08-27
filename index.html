@@ -119,6 +119,7 @@
   .judge-btn.ok:active{ background: var(--ok); color:#08240f; }
   .judge-btn.ng{ background: var(--ng-dim); color: #ffe1dd; border-color: var(--ng); }
   .judge-btn.ng:active{ background: var(--ng); color:#2a0805; }
+  .judge-btn.chosen{ box-shadow: 0 0 0 3px var(--amber) inset; }
 
   .view{ display:none; }
   .view.active{ display:block; }
@@ -154,8 +155,8 @@
     <div class="panel">
       <h2>0. 判定資料同步設定</h2>
       <div class="hint" style="margin-bottom:12px;">
-        判定紀錄會即時同步到一份 Google 試算表，3 位操作員不論用哪台電腦，只要貼同一個網址，資料就會自動彙整在一起，網頁裡也能直接看到 3 個人的即時總進度。<br>
-        設定方式：Google 試算表 →「擴充功能」→「Apps Script」→ 貼上對應程式碼 →「部署」→「新增部署作業」→ 網頁應用程式（執行身分：我；誰可以存取：任何人）→ 複製取得的網址貼在下方。
+        判定紀錄會即時同步到一份 Google 試算表，網址已經內建好，操作員不需要做任何設定即可使用。<br>
+        （只有需要換成別份試算表時才需要用到下面這個欄位：貼上新網址後按「儲存設定」即可覆蓋。）
       </div>
       <div class="row two">
         <div style="grid-column: 1 / -1;">
@@ -272,7 +273,8 @@
       <button class="judge-btn ng" id="ngBtn">NG <span class="k">→ / N</span></button>
     </div>
 
-    <div style="margin-top:16px; text-align:right;">
+    <div style="margin-top:16px; display:flex; justify-content:space-between; align-items:center;">
+      <button class="btn" id="prevBtn">⬅ 上一頁（重新確認）</button>
       <button class="btn" id="quitJudgeBtn">中止並返回設定頁</button>
     </div>
   </div>
@@ -578,8 +580,12 @@
      Google Apps Script sync (shared judgment records across devices)
   ----------------------------------------------------------------*/
   const APPS_SCRIPT_URL_KEY = "msa_kappa_apps_script_url_v1";
+  const DEFAULT_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxyJwflVEKzbDgjKraGAFmudADboQNdN0voITkvdW8pumZzj-WIht4JNCBLdQe4Z64S/exec";
 
-  function getAppsScriptUrl(){ return (localStorage.getItem(APPS_SCRIPT_URL_KEY) || "").trim(); }
+  function getAppsScriptUrl(){
+    const stored = (localStorage.getItem(APPS_SCRIPT_URL_KEY) || "").trim();
+    return stored || DEFAULT_APPS_SCRIPT_URL;
+  }
   function setAsStatus(msg){ document.getElementById("asStatus").textContent = msg; }
 
   function saveAppsScriptUrlFromForm(){
@@ -590,8 +596,9 @@
     return url;
   }
   function loadAppsScriptUrlIntoForm(){
-    const url = getAppsScriptUrl();
-    if(url){ document.getElementById("asUrl").value = url; setAsStatus("已載入本機儲存的設定"); }
+    const stored = (localStorage.getItem(APPS_SCRIPT_URL_KEY) || "").trim();
+    document.getElementById("asUrl").value = stored || DEFAULT_APPS_SCRIPT_URL;
+    setAsStatus(stored ? "已載入本機儲存的設定" : "已內建預設網址，不需要任何設定即可使用");
   }
 
   async function pushRemoteJudgments(url, records){
@@ -742,6 +749,7 @@
   const okBtn = document.getElementById("okBtn");
   const ngBtn = document.getElementById("ngBtn");
   const quitJudgeBtn = document.getElementById("quitJudgeBtn");
+  const prevBtn = document.getElementById("prevBtn");
 
   function startJudgeView(){
     judgeMeta.textContent = session.item + " · " + session.operator + " · Trial " + session.trial;
@@ -749,17 +757,28 @@
     showView("view-judge");
   }
 
-  function showCurrentImage(){
+  function findJudgment(all, item, partId, operator, trial){
+    return all.find(r => r.item===item && r.partId===partId && r.operator===operator && String(r.trial)===String(trial));
+  }
+
+  async function showCurrentImage(){
     if(session.currentUrl){ URL.revokeObjectURL(session.currentUrl); session.currentUrl = null; }
     const doneSoFar = session.answeredBefore + session.idx;
     judgeProgress.textContent = doneSoFar + " / " + session.total;
     progressFill.style.width = (100*doneSoFar/session.total).toFixed(1) + "%";
+    prevBtn.disabled = (session.idx === 0);
 
     if(session.idx >= session.queue.length){ finishSession(); return; }
     const rec = session.queue[session.idx];
     const url = URL.createObjectURL(rec.blob);
     session.currentUrl = url;
     stageImg.src = url;
+
+    // If this image was already answered (e.g. navigated back to it), show which one.
+    const all = await getAll("judgments");
+    const existing = findJudgment(all, session.item, rec.partId, session.operator, session.trial);
+    okBtn.classList.toggle("chosen", !!existing && existing.response==="OK");
+    ngBtn.classList.toggle("chosen", !!existing && existing.response==="NG");
   }
 
   let judgeLocked = false;
@@ -768,22 +787,35 @@
     judgeLocked = true;
     const rec = session.queue[session.idx];
     const standard = session.standardsMap[rec.partId] || "";
-    await putRecord("judgments", {
+    const all = await getAll("judgments");
+    const existing = findJudgment(all, session.item, rec.partId, session.operator, session.trial);
+    const payload = {
       item: session.item, partId: rec.partId, operator: session.operator,
       trial: Number(session.trial), response, standard, ts: Date.now()
-    });
+    };
+    if(existing) payload.id = existing.id; // overwrite the same row instead of duplicating
+    await putRecord("judgments", payload);
     session.idx++;
     showCurrentImage();
     judgeLocked = false;
   }
 
+  function goToPrevious(){
+    if(!session || judgeLocked) return;
+    if(session.idx === 0){ toast("已經是這輪的第一張，無法再上一頁"); return; }
+    session.idx--;
+    showCurrentImage();
+  }
+
   okBtn.addEventListener("click", ()=>recordAnswer("OK"));
   ngBtn.addEventListener("click", ()=>recordAnswer("NG"));
+  prevBtn.addEventListener("click", goToPrevious);
 
   document.addEventListener("keydown", (e)=>{
     if(!document.getElementById("view-judge").classList.contains("active")) return;
     if(e.key==="o" || e.key==="O" || e.key==="ArrowLeft"){ recordAnswer("OK"); }
     else if(e.key==="n" || e.key==="N" || e.key==="ArrowRight"){ recordAnswer("NG"); }
+    else if(e.key==="Backspace" || e.key==="p" || e.key==="P"){ goToPrevious(); }
   });
 
   quitJudgeBtn.addEventListener("click", ()=>{
@@ -884,7 +916,7 @@
   }).catch(err=>{
     alert("本機資料庫初始化失敗：" + err + "\n請確認瀏覽器允許此網頁使用儲存空間。");
   });
- 
+
 })();
 </script>
 </body>
