@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>MSA 影像判定系統｜Adhesion / Resolution Kappa 測試</title>
+<title>MSA 影像判定系統｜WBR / UMTC / JMC / JMC Pro Kappa 測試</title>
 <style>
   :root{
     --bg: #1a1e24;
@@ -29,7 +29,6 @@
     -webkit-tap-highlight-color: transparent;
   }
   #app{ max-width: 860px; margin: 0 auto; padding: 16px 16px 48px; }
-
   .topbar{
     display:flex; align-items:center; justify-content:space-between;
     padding: 14px 4px 18px; border-bottom: 1px solid var(--border); margin-bottom: 20px;
@@ -38,22 +37,21 @@
   .topbar .led{ width:10px; height:10px; border-radius:50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); }
   .topbar h1{ font-size: 15px; font-weight: 600; letter-spacing: .04em; margin:0; color: var(--text); }
   .topbar .sub{ font-family: var(--mono); font-size: 11px; color: var(--muted); }
-
   .panel{
     background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
     padding: 20px; margin-bottom: 16px;
   }
   .panel h2{ font-size: 13px; text-transform: uppercase; letter-spacing:.08em; color: var(--muted); margin: 0 0 14px; font-weight:600; }
-
+  .panel h3{ font-size: 12px; letter-spacing:.04em; color: var(--text); margin: 16px 0 8px; font-weight:600; }
   label{ display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
   select, input[type=text], input[type=password]{
     width:100%; background: var(--panel-2); color: var(--text); border: 1px solid var(--border);
     border-radius: 6px; padding: 10px 12px; font-size: 14px; font-family: var(--sans);
   }
-  .row{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .row{ display:grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
   .row.two{ grid-template-columns: 1fr 1fr; }
-  @media (max-width: 560px){ .row{ grid-template-columns: 1fr; } }
-
+  @media (max-width: 680px){ .row{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 420px){ .row{ grid-template-columns: 1fr; } }
   .btn{
     display:inline-flex; align-items:center; justify-content:center; gap:8px;
     background: var(--panel-2); color: var(--text); border: 1px solid var(--border);
@@ -69,31 +67,31 @@
   .btn.block{ width:100%; }
   .btn.small{ padding: 6px 12px; font-size: 12px; }
   .btnrow{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-
   .hint{ font-size:12px; color: var(--muted); margin-top:6px; line-height:1.6; }
+  .badgegroup{ margin-bottom:10px; }
+  .badgegroup .glabel{ font-family: var(--mono); font-size:11px; color:var(--muted); margin-bottom:6px; letter-spacing:.04em; }
   .count-badge{
     font-family: var(--mono); font-size: 12px; padding: 3px 9px; border-radius: 20px;
-    background: var(--panel-2); border:1px solid var(--border); color: var(--text);
+    background: var(--panel-2); border:1px solid var(--border); color: var(--text); margin-right:6px; display:inline-block; margin-bottom:6px;
   }
   .count-badge.zero{ color: var(--muted); }
   .count-badge.ok{ color: var(--ok); border-color: var(--ok); }
-
-  table.matrix{ width:100%; border-collapse: collapse; font-size: 13px; }
+  table.matrix{ width:100%; border-collapse: collapse; font-size: 13px; margin-bottom: 6px; }
   table.matrix th, table.matrix td{ border: 1px solid var(--border); padding: 7px 8px; text-align:center; }
   table.matrix th{ color: var(--muted); font-weight:500; background: var(--panel-2); font-size:11px; text-transform:uppercase; letter-spacing:.04em; }
   table.matrix td.done{ color: var(--ok); font-family: var(--mono); }
   table.matrix td.partial{ color: var(--amber); font-family: var(--mono); }
   table.matrix td.none{ color: var(--muted); font-family: var(--mono); }
   table.matrix td.itemcell{ text-align:left; color: var(--text); font-weight:600; }
-
+  .method-block{ margin-bottom: 18px; }
+  .method-block:last-child{ margin-bottom: 0; }
+  .method-title{ font-family: var(--mono); font-size: 12px; color: var(--amber); margin-bottom:8px; letter-spacing:.05em; }
   details.admin{ border: 1px dashed var(--border); border-radius: 8px; padding: 4px 14px; margin-top: 14px; }
   details.admin > summary{ cursor:pointer; padding: 10px 0; font-size: 13px; color: var(--muted); }
   details.admin[open] > summary{ color: var(--text); }
   details.admin .inner{ padding: 4px 0 14px; }
-
   pre.list{ margin-top:10px; background:var(--panel-2); border:1px solid var(--border); border-radius:6px;
     padding:10px 12px; max-height:200px; overflow:auto; font-family:var(--mono); font-size:12px; color:var(--text); white-space:pre-wrap; }
-
   /* Judge view */
   #view-judge .stage{
     background: #000; border: 1px solid var(--border); border-radius: 10px;
@@ -107,7 +105,6 @@
   }
   .progress-track{ height: 6px; background: var(--panel-2); border-radius: 4px; overflow:hidden; margin-bottom: 20px; border:1px solid var(--border); }
   .progress-fill{ height:100%; background: var(--amber); transition: width .2s ease; }
-
   .judge-buttons{ display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .judge-btn{
     padding: 26px 10px; font-size: 22px; font-weight: 700; letter-spacing:.06em;
@@ -120,13 +117,10 @@
   .judge-btn.ng{ background: var(--ng-dim); color: #ffe1dd; border-color: var(--ng); }
   .judge-btn.ng:active{ background: var(--ng); color:#2a0805; }
   .judge-btn.chosen{ box-shadow: 0 0 0 3px var(--amber) inset; }
-
   .view{ display:none; }
   .view.active{ display:block; }
-
   .done-icon{ font-family: var(--mono); font-size: 40px; color: var(--ok); text-align:center; margin: 10px 0 4px; }
   .center{ text-align:center; }
-
   #toast{
     position: fixed; left:50%; bottom: 24px; transform: translateX(-50%);
     background: var(--panel-2); border:1px solid var(--amber); color: var(--text);
@@ -134,13 +128,11 @@
     transition: opacity .25s; z-index: 50; max-width: 90%; text-align:center;
   }
   #toast.show{ opacity:1; }
-
   hr.div{ border: none; border-top: 1px solid var(--border); margin: 16px 0; }
 </style>
 </head>
 <body>
 <div id="app">
-
   <div class="topbar">
     <div class="brand">
       <div class="led" id="statusLed"></div>
@@ -148,14 +140,12 @@
     </div>
     <div class="sub">3 × 3 × 30 · KAPPA STUDY</div>
   </div>
-
   <!-- ===================== SETUP VIEW ===================== -->
   <div class="view active" id="view-setup">
-
     <div class="panel">
       <h2>0. 判定資料同步設定</h2>
       <div class="hint" style="margin-bottom:12px;">
-        判定紀錄會即時同步到一份 Google 試算表，網址已經內建好，操作員不需要做任何設定即可使用。<br>
+        判定紀錄會即時同步到一份 Google 試算表（每個檢驗方法各自一個分頁），網址已經內建好，操作員不需要做任何設定即可使用。<br>
         （只有需要換成別份試算表時才需要用到下面這個欄位：貼上新網址後按「儲存設定」即可覆蓋。）
       </div>
       <div class="row two">
@@ -170,26 +160,24 @@
       </div>
       <div class="hint" id="asStatus" style="margin-top:10px;">尚未設定</div>
     </div>
-
     <div class="panel">
       <h2>1. 影像資料</h2>
-      <div class="hint" id="autoImgHint">頁面載入時會自動讀取固定的 60 張照片，操作員不需要做任何事。</div>
-      <div class="btnrow" style="margin-top:10px;">
-        <span class="count-badge" id="imgCountBadge_Adhesion">Adhesion：0 張</span>
-        <span class="count-badge" id="imgCountBadge_Resolution">Resolution：0 張</span>
+      <div class="hint" id="autoImgHint">頁面載入時會自動讀取固定的照片，操作員不需要做任何事。</div>
+      <div id="imgBadges" style="margin-top:10px;"></div>
+      <div class="btnrow">
         <button class="btn small" id="reloadImgBtn">重新載入影像</button>
         <button class="btn small" id="viewListBtn">檢視清單</button>
       </div>
       <pre class="list" id="imgListPre" style="display:none;"></pre>
-
       <details class="admin">
         <summary>🔧 管理者工具：首次部署或照片更新時使用（一般操作員不需要打開）</summary>
         <div class="inner">
           <div class="hint">
-            用這裡把本機的照片資料夾匯入一次——可以選最上層同時包含 <code>Adhesion/</code> 與 <code>Resolution/</code> 的資料夾，
-            也可以一次只選其中一個項目的資料夾（例如直接選 <code>Adhesion</code>，底下是 OK/NG/三角形）。
+            用這裡把本機的照片資料夾匯入一次——資料夾結構需為
+            <code>檢驗方法/檢驗項目/OK或NG或三角形/照片檔</code>（例如 <code>WBR/Resolution/OK/001.jpg</code>）。
+            可以選最上層同時包含所有檢驗方法的資料夾，也可以一次只選其中一個檢驗方法的資料夾（例如直接選 <code>WBR</code>，底下是 Resolution/Adhesion）。
             匯入後一來可以立刻在這台電腦上測試，二來可以產生 <code>manifest.json</code>，
-            把它跟照片一起 push 到 GitHub repo 的 <code>images/</code> 資料夾內，之後所有人開啟網頁就會自動載入這 60 張照片。
+            把它跟照片一起 push 到 GitHub repo 的 <code>images/</code> 資料夾內，之後所有人開啟網頁就會自動載入這些照片。
           </div>
           <div class="btnrow" style="margin-top:10px;">
             <label class="btn small" for="folderInput" style="margin:0;">選擇照片資料夾</label>
@@ -199,28 +187,25 @@
           <hr class="div">
           <label for="stdFileInput">選填：若照片沒有用 OK/NG/三角形 子資料夾分類，可上傳標準答案 CSV</label>
           <div class="btnrow">
-            <label class="btn small" for="stdItemSelect" style="margin:0; background:none; border:none; padding:0;">項目：</label>
-            <select id="stdItemSelect" style="width:auto;">
-              <option value="Adhesion">Adhesion</option>
-              <option value="Resolution">Resolution</option>
-            </select>
+            <label class="btn small" for="stdComboSelect" style="margin:0; background:none; border:none; padding:0;">方法/項目：</label>
+            <select id="stdComboSelect" style="width:auto;"></select>
             <label class="btn small" for="stdFileInput" style="margin:0;">選擇標準答案 CSV</label>
             <input type="file" id="stdFileInput" accept=".csv" style="display:none;">
           </div>
-          <div class="hint">CSV 格式：兩欄，Part_ID,Standard（例如 Adhesion_01,OK），不需標題列也可以。</div>
+          <div class="hint">CSV 格式：兩欄，Part_ID,Standard（例如 Resolution_01,OK），不需標題列也可以。</div>
         </div>
       </details>
     </div>
-
     <div class="panel">
       <h2>2. 開始判定測試</h2>
       <div class="row">
         <div>
+          <label for="methodSelect">檢驗方法</label>
+          <select id="methodSelect"></select>
+        </div>
+        <div>
           <label for="itemSelect">檢驗項目</label>
-          <select id="itemSelect">
-            <option value="Adhesion">Adhesion</option>
-            <option value="Resolution">Resolution</option>
-          </select>
+          <select id="itemSelect"></select>
         </div>
         <div>
           <label for="operatorInput">操作員</label>
@@ -238,12 +223,10 @@
       <button class="btn primary block" id="startBtn">開始測試</button>
       <div class="hint" id="startHint" style="margin-top:10px;"></div>
     </div>
-
     <div class="panel">
-      <h2>3. 完成度總覽（3 人共用）</h2>
+      <h2>3. 完成度總覽（3 人共用，依檢驗方法分開顯示）</h2>
       <div id="matrixWrap"></div>
     </div>
-
     <div class="panel">
       <h2>4. 匯出 / 備份</h2>
       <div class="btnrow">
@@ -253,32 +236,26 @@
         <input type="file" id="restoreInput" accept=".json" style="display:none;">
         <button class="btn danger" id="resetBtn">清除本機資料</button>
       </div>
-      <div class="hint">目前累計判定筆數：<span id="totalCount">0</span> / 540　（「清除本機資料」只清這台裝置的快取，不會刪除 Google 試算表裡的紀錄）</div>
+      <div class="hint">目前累計判定筆數：<span id="totalCount">0</span>　（「清除本機資料」只清這台裝置的快取，不會刪除 Google 試算表裡的紀錄）</div>
     </div>
-
   </div>
-
   <!-- ===================== JUDGE VIEW ===================== -->
   <div class="view" id="view-judge">
     <div class="meta-strip">
-      <span id="judgeMeta">Adhesion · Op_A · Trial 1</span>
+      <span id="judgeMeta">WBR · Resolution · Op_A · Trial 1</span>
       <span id="judgeProgress">0 / 30</span>
     </div>
     <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-
     <div class="stage"><img id="stageImg" alt="判定照片"></div>
-
     <div class="judge-buttons">
       <button class="judge-btn ok" id="okBtn">OK <span class="k">← / O</span></button>
       <button class="judge-btn ng" id="ngBtn">NG <span class="k">→ / N</span></button>
     </div>
-
     <div style="margin-top:16px; display:flex; justify-content:space-between; align-items:center;">
       <button class="btn" id="prevBtn">⬅ 上一頁（重新確認）</button>
       <button class="btn" id="quitJudgeBtn">中止並返回設定頁</button>
     </div>
   </div>
-
   <!-- ===================== DONE VIEW ===================== -->
   <div class="view" id="view-done">
     <div class="panel center">
@@ -290,26 +267,34 @@
       </div>
     </div>
   </div>
-
 </div>
-
 <div id="toast"></div>
-
 <script>
 (function(){
   "use strict";
+  /* ---------------------------------------------------------------
+     檢驗方法 / 檢驗項目 設定
+     要新增/調整方法或項目，只需要改這裡；其餘 UI 與資料流程都會自動跟著變動。
+  ----------------------------------------------------------------*/
+  const METHODS = {
+    "WBR": ["Resolution", "Adhesion"],
+    "UMTC": ["Void", "FM"],
+    "JMC": ["TOP void", "Bottom void"],
+    "JMC Pro": ["TOP void", "Bottom void"]
+  };
+  const METHOD_NAMES = Object.keys(METHODS); // 順序 = 分頁順序 = doPost 找不到 method 時的預設值(第一個)
+  const TRIALS = ["1", "2", "3"];
 
   /* ---------------------------------------------------------------
      IndexedDB layer
      stores:
-       images     { id: "<Item>|<PartID>", item, partId, blob, path? }
-       standards  { id: "<Item>|<PartID>", item, partId, standard }
-       judgments  { id: autoIncrement, item, partId, operator, trial, response, standard, ts }
+       images     { id: "<Method>|<Item>|<PartID>", method, item, partId, blob, path? }
+       standards  { id: "<Method>|<Item>|<PartID>", method, item, partId, standard }
+       judgments  { id: autoIncrement, method, item, partId, operator, trial, response, standard, ts }
   ----------------------------------------------------------------*/
-  const DB_NAME = "msa_kappa_judging_v2";
+  const DB_NAME = "msa_kappa_judging_v3";
   const DB_VERSION = 1;
   let db;
-
   function openDB(){
     return new Promise((resolve, reject)=>{
       const req = indexedDB.open(DB_NAME, DB_VERSION);
@@ -323,7 +308,6 @@
       req.onerror = (e)=>reject(e.target.error);
     });
   }
-
   function tx(storeName, mode){ return db.transaction(storeName, mode).objectStore(storeName); }
   function reqToPromise(req){
     return new Promise((resolve,reject)=>{
@@ -332,34 +316,39 @@
     });
   }
   function putRecord(store, value){ return reqToPromise(tx(store,"readwrite").put(value)); }
-  function getAll(store){ return reqToPromise(tx(store,"readonly").getAll()); }
+  function getAllRaw(store){ return reqToPromise(tx(store,"readonly").getAll()); }
   function clearStore(store){ return reqToPromise(tx(store,"readwrite").clear()); }
   function getOne(store, id){ return reqToPromise(tx(store,"readonly").get(id)); }
-
-  function getImagesForItem(item){
+  function getImagesForMethodItem(method, item){
     return new Promise((resolve,reject)=>{
-      const range = IDBKeyRange.bound(item+"|", item+"|\uffff");
+      const prefix = method+"|"+item+"|";
+      const range = IDBKeyRange.bound(prefix, prefix+"￿");
       const req = tx("images","readonly").getAll(range);
       req.onsuccess = ()=>resolve(req.result);
       req.onerror = ()=>reject(req.error);
     });
   }
-  async function getJudgmentsForCombo(item, operator, trial){
-    const all = await getAll("judgments");
-    return all.filter(r => r.item===item && r.operator===operator && String(r.trial)===String(trial));
+  // 向下相容：舊版資料(升級前存的)沒有 method 欄位，一律視為 WBR（舊系統原本只做 WBR）
+  function normalizeJudgment_(r){
+    if(!r.method) r.method = "WBR";
+    return r;
   }
-  async function deleteJudgmentsForCombo(item, operator, trial){
-    const all = await getAll("judgments");
-    const toDelete = all.filter(r => r.item===item && r.operator===operator && String(r.trial)===String(trial));
+  async function getAllJudgments(){
+    const all = await getAllRaw("judgments");
+    return all.map(normalizeJudgment_);
+  }
+  async function getJudgmentsForCombo(method, item, operator, trial){
+    const all = await getAllJudgments();
+    return all.filter(r => r.method===method && r.item===item && r.operator===operator && String(r.trial)===String(trial));
+  }
+  async function deleteJudgmentsForCombo(method, item, operator, trial){
+    const all = await getAllRaw("judgments");
+    const toDelete = all.filter(r => (r.method||"WBR")===method && r.item===item && r.operator===operator && String(r.trial)===String(trial));
     for(const r of toDelete){ await reqToPromise(tx("judgments","readwrite").delete(r.id)); }
   }
-
   /* ---------------------------------------------------------------
      Shared helpers
   ----------------------------------------------------------------*/
-  const ITEMS = ["Adhesion","Resolution"];
-  const TRIALS = ["1","2","3"];
-
   function baseName(filename){ return filename.replace(/\.[^/.]+$/, ""); }
   function partIdFromSegments(segs){ return baseName(segs.join("_")); }
   function standardFromSegments(segs){
@@ -400,22 +389,52 @@
     const p = n=>String(n).padStart(2,"0");
     return d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+"_"+p(d.getHours())+p(d.getMinutes());
   }
+  function allMethodItemPairs(){
+    const out = [];
+    METHOD_NAMES.forEach(m => METHODS[m].forEach(it => out.push([m, it])));
+    return out;
+  }
+  /* ---------------------------------------------------------------
+     Populate method/item selects
+  ----------------------------------------------------------------*/
+  const methodSelect = document.getElementById("methodSelect");
+  const itemSelect = document.getElementById("itemSelect");
+  function populateMethodSelect(){
+    methodSelect.innerHTML = METHOD_NAMES.map(m=>`<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join("");
+  }
+  function populateItemSelectFor(method){
+    const items = METHODS[method] || [];
+    itemSelect.innerHTML = items.map(it=>`<option value="${escapeHtml(it)}">${escapeHtml(it)}</option>`).join("");
+  }
+  methodSelect.addEventListener("change", ()=> populateItemSelectFor(methodSelect.value));
+  populateMethodSelect();
+  populateItemSelectFor(methodSelect.value);
 
+  function populateStdComboSelect(){
+    const sel = document.getElementById("stdComboSelect");
+    sel.innerHTML = allMethodItemPairs().map(([m,it])=>
+      `<option value="${escapeHtml(m)}||${escapeHtml(it)}">${escapeHtml(m)} / ${escapeHtml(it)}</option>`
+    ).join("");
+  }
+  populateStdComboSelect();
   /* ---------------------------------------------------------------
      Auto image loading from a fixed manifest.json (no operator action)
+     manifest.json 格式: [{ "method":"WBR", "item":"Resolution", "partId":"...", "path":"...", "standard":"OK" }, ...]
   ----------------------------------------------------------------*/
   async function refreshImageBadges(){
-    for(const item of ITEMS){
-      const imgs = await getImagesForItem(item);
-      const el = document.getElementById("imgCountBadge_"+item);
-      if(el){
-        el.textContent = item + "：" + imgs.length + " 張";
-        el.classList.toggle("zero", imgs.length===0);
-        el.classList.toggle("ok", imgs.length>0);
+    const wrap = document.getElementById("imgBadges");
+    let html = "";
+    for(const method of METHOD_NAMES){
+      html += `<div class="badgegroup"><div class="glabel">${escapeHtml(method)}</div>`;
+      for(const item of METHODS[method]){
+        const imgs = await getImagesForMethodItem(method, item);
+        const cls = imgs.length>0 ? "count-badge ok" : "count-badge zero";
+        html += `<span class="${cls}">${escapeHtml(item)}：${imgs.length} 張</span>`;
       }
+      html += `</div>`;
     }
+    wrap.innerHTML = html;
   }
-
   async function autoLoadImagesFromManifest(){
     try{
       const res = await fetch("images/manifest.json", {cache:"no-store"});
@@ -424,21 +443,22 @@
       if(!Array.isArray(manifest) || manifest.length===0) return;
       let loaded = 0;
       for(const entry of manifest){
-        if(!entry.item || !entry.partId || !entry.path) continue;
-        const id = entry.item+"|"+entry.partId;
+        if(!entry.method || !entry.item || !entry.partId || !entry.path) continue;
+        if(!METHODS[entry.method] || METHODS[entry.method].indexOf(entry.item)===-1) continue;
+        const id = entry.method+"|"+entry.item+"|"+entry.partId;
         const already = await getOne("images", id);
         if(already) continue; // already cached on this device
         const imgRes = await fetch("images/"+entry.path);
         if(!imgRes.ok) continue;
         const blob = await imgRes.blob();
-        await putRecord("images", { id, item: entry.item, partId: entry.partId, path: entry.path, blob });
+        await putRecord("images", { id, method: entry.method, item: entry.item, partId: entry.partId, path: entry.path, blob });
         if(entry.standard){
-          await putRecord("standards", { id, item: entry.item, partId: entry.partId, standard: entry.standard });
+          await putRecord("standards", { id, method: entry.method, item: entry.item, partId: entry.partId, standard: entry.standard });
         }
         loaded++;
       }
       if(loaded>0){ toast("已自動載入 "+loaded+" 張影像"); }
-      document.getElementById("autoImgHint").textContent = "已自動讀取固定的 60 張照片，操作員不需要做任何事。";
+      document.getElementById("autoImgHint").textContent = "已自動讀取固定的照片，操作員不需要做任何事。";
       refreshImageBadges();
       renderMatrix();
     }catch(err){
@@ -447,17 +467,15 @@
         "⚠ 無法自動載入影像（可能是用雙擊本機檔案開啟、或 images/manifest.json 尚未部署到這個網址）。可以打開下方「管理者工具」手動匯入。";
     }
   }
-
   document.getElementById("reloadImgBtn").addEventListener("click", autoLoadImagesFromManifest);
-
   document.getElementById("viewListBtn").addEventListener("click", async ()=>{
     const pre = document.getElementById("imgListPre");
     if(pre.style.display === "none"){
       const lines = [];
-      for(const item of ITEMS){
-        const imgs = await getImagesForItem(item);
+      for(const [method, item] of allMethodItemPairs()){
+        const imgs = await getImagesForMethodItem(method, item);
         const ids = imgs.map(i=>i.partId).sort((a,b)=>a.localeCompare(b, undefined, {numeric:true}));
-        lines.push(item + "（" + ids.length + " 張）");
+        lines.push(method + " / " + item + "（" + ids.length + " 張）");
         ids.forEach(id => lines.push("  " + id));
       }
       pre.textContent = lines.length ? lines.join("\n") : "（尚未載入任何影像）";
@@ -466,74 +484,83 @@
       pre.style.display = "none";
     }
   });
-
   /* ---------------------------------------------------------------
-     Admin tool: import local "images" folder (both items in one go)
-     -> caches into IndexedDB for immediate local testing
-     -> lets the admin generate manifest.json to deploy for everyone else
+     Admin tool: import local "images" folder (all methods in one go,
+     or a single method folder) -> caches into IndexedDB for immediate
+     local testing -> lets the admin generate manifest.json to deploy
+     for everyone else.
+     Expected folder layout: <Method>/<Item>/<OK|NG|三角形>/photo.jpg
   ----------------------------------------------------------------*/
-  function matchItem(name){
-    const n = String(name||"").toLowerCase();
-    return ITEMS.find(it => it.toLowerCase() === n) || null;
+  function matchMethod(name){
+    const n = String(name||"");
+    return METHOD_NAMES.find(m => m.toLowerCase() === n.toLowerCase()) || null;
   }
-
+  function matchItemForMethod(method, name){
+    const n = String(name||"");
+    const items = METHODS[method] || [];
+    return items.find(it => it.toLowerCase() === n.toLowerCase()) || null;
+  }
   function deriveEntryFromFile(file){
     const rel = file.webkitRelativePath || "";
     if(!rel || rel.indexOf("/") === -1) return null;
     const allSegs = rel.split("/");
     const rootFolder = allSegs[0];
     const afterRoot = allSegs.slice(1); // path below whatever folder the admin selected
-
     // Structure A: selected a wrapper folder (e.g. "images") that itself contains
-    // Adhesion/ and Resolution/ subfolders — afterRoot[0] is the item name.
-    if(afterRoot.length >= 2){
-      const item = matchItem(afterRoot[0]);
+    // <Method>/<Item>/... subfolders — afterRoot[0]=method, afterRoot[1]=item.
+    if(afterRoot.length >= 3){
+      const method = matchMethod(afterRoot[0]);
+      if(method){
+        const item = matchItemForMethod(method, afterRoot[1]);
+        if(item){
+          const subSegs = afterRoot.slice(2);
+          return {
+            method, item,
+            partId: partIdFromSegments(subSegs),
+            standard: standardFromSegments(subSegs.slice(0,-1)),
+            path: method + "/" + item + "/" + subSegs.join("/")
+          };
+        }
+      }
+    }
+    // Structure B: selected a single Method folder directly (e.g. "WBR",
+    // containing Resolution/Adhesion straight away) — the root folder IS the method.
+    const methodFromRoot = matchMethod(rootFolder);
+    if(methodFromRoot && afterRoot.length >= 2){
+      const item = matchItemForMethod(methodFromRoot, afterRoot[0]);
       if(item){
         const subSegs = afterRoot.slice(1);
         return {
-          item,
+          method: methodFromRoot, item,
           partId: partIdFromSegments(subSegs),
           standard: standardFromSegments(subSegs.slice(0,-1)),
-          path: item + "/" + subSegs.join("/")
+          path: methodFromRoot + "/" + item + "/" + subSegs.join("/")
         };
       }
     }
-
-    // Structure B: selected a single item folder directly (e.g. "Adhesion",
-    // containing OK/NG/三角形 straight away) — the root folder IS the item.
-    const itemFromRoot = matchItem(rootFolder);
-    if(itemFromRoot && afterRoot.length >= 1){
-      return {
-        item: itemFromRoot,
-        partId: partIdFromSegments(afterRoot),
-        standard: standardFromSegments(afterRoot.slice(0,-1)),
-        path: itemFromRoot + "/" + afterRoot.join("/")
-      };
-    }
-
     return null;
   }
-
   document.getElementById("folderInput").addEventListener("change", async (e)=>{
     const files = Array.from(e.target.files).filter(f => f.type.startsWith("image/"));
-    if(files.length===0){ toast("未偵測到圖片檔，請確認選的資料夾內有 Adhesion/Resolution（或其中之一）加上 OK/NG/三角形 子資料夾"); return; }
-
+    if(files.length===0){ toast("未偵測到圖片檔，請確認選的資料夾結構是 檢驗方法/檢驗項目/OK或NG或三角形/照片"); return; }
     const seen = {};
     let loaded=0, skipped=0, stdDerived=0;
     for(const f of files){
       const info = deriveEntryFromFile(f);
       if(!info){ skipped++; continue; }
-      let {item, partId, standard, path} = info;
-      seen[item] = seen[item] || new Set();
-      if(seen[item].has(partId)){
+      let {method, item, partId, standard, path} = info;
+      const seenKey = method+"|"+item;
+      seen[seenKey] = seen[seenKey] || new Set();
+      if(seen[seenKey].has(partId)){
         let suf=2, cand=partId+"_dup"+suf;
-        while(seen[item].has(cand)){ suf++; cand=partId+"_dup"+suf; }
+        while(seen[seenKey].has(cand)){ suf++; cand=partId+"_dup"+suf; }
         partId = cand;
       }
-      seen[item].add(partId);
-      await putRecord("images", { id: item+"|"+partId, item, partId, path, blob: f });
+      seen[seenKey].add(partId);
+      const id = method+"|"+item+"|"+partId;
+      await putRecord("images", { id, method, item, partId, path, blob: f });
       if(standard){
-        await putRecord("standards", { id: item+"|"+partId, item, partId, standard });
+        await putRecord("standards", { id, method, item, partId, standard });
         stdDerived++;
       }
       loaded++;
@@ -545,22 +572,21 @@
     refreshImageBadges();
     renderMatrix();
   });
-
   document.getElementById("genManifestBtn").addEventListener("click", async ()=>{
-    const imgs = await getAll("images");
+    const imgs = await getAllRaw("images");
     const withPath = imgs.filter(i=>i.path);
-    if(withPath.length===0){ toast("尚未匯入任何含資料夾路徑的影像，請先用上方「選擇 images 資料夾」匯入"); return; }
-    const stds = await getAll("standards");
+    if(withPath.length===0){ toast("尚未匯入任何含資料夾路徑的影像，請先用上方「選擇照片資料夾」匯入"); return; }
+    const stds = await getAllRaw("standards");
     const stdMap = {}; stds.forEach(s=> stdMap[s.id]=s.standard);
-    const manifest = withPath.map(i=>({ item: i.item, partId: i.partId, path: i.path, standard: stdMap[i.id] || "" }));
+    const manifest = withPath.map(i=>({ method: i.method, item: i.item, partId: i.partId, path: i.path, standard: stdMap[i.id] || "" }));
     downloadBlob(JSON.stringify(manifest, null, 2), "manifest.json", "application/json");
     toast("已產生 manifest.json（共 " + manifest.length + " 筆），請放進 repo 的 images/ 資料夾內一起 push 上去");
   });
-
   document.getElementById("stdFileInput").addEventListener("change", async (e)=>{
     const file = e.target.files[0];
     if(!file) return;
-    const item = document.getElementById("stdItemSelect").value;
+    const combo = document.getElementById("stdComboSelect").value.split("||");
+    const method = combo[0], item = combo[1];
     const text = await file.text();
     const lines = text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
     let n=0;
@@ -569,25 +595,23 @@
       if(parts.length < 2) continue;
       const [partId, standard] = parts;
       if(/^part.?id$/i.test(partId)) continue;
-      await putRecord("standards", { id: item+"|"+partId, item, partId, standard: standard.toUpperCase() });
+      const id = method+"|"+item+"|"+partId;
+      await putRecord("standards", { id, method, item, partId, standard: standard.toUpperCase() });
       n++;
     }
-    toast("已載入 " + n + " 筆標準答案（" + item + "）");
+    toast("已載入 " + n + " 筆標準答案（" + method + " / " + item + "）");
     refreshImageBadges();
   });
-
   /* ---------------------------------------------------------------
      Google Apps Script sync (shared judgment records across devices)
   ----------------------------------------------------------------*/
   const APPS_SCRIPT_URL_KEY = "msa_kappa_apps_script_url_v1";
   const DEFAULT_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxyJwflVEKzbDgjKraGAFmudADboQNdN0voITkvdW8pumZzj-WIht4JNCBLdQe4Z64S/exec";
-
   function getAppsScriptUrl(){
     const stored = (localStorage.getItem(APPS_SCRIPT_URL_KEY) || "").trim();
     return stored || DEFAULT_APPS_SCRIPT_URL;
   }
   function setAsStatus(msg){ document.getElementById("asStatus").textContent = msg; }
-
   function saveAppsScriptUrlFromForm(){
     const url = document.getElementById("asUrl").value.trim();
     if(!url){ setAsStatus("請貼上 Apps Script 網頁應用程式網址"); return null; }
@@ -600,7 +624,6 @@
     document.getElementById("asUrl").value = stored || DEFAULT_APPS_SCRIPT_URL;
     setAsStatus(stored ? "已載入本機儲存的設定" : "已內建預設網址，不需要任何設定即可使用");
   }
-
   async function pushRemoteJudgments(url, records){
     // Sending a plain string body keeps this a CORS "simple request" (avoids
     // Apps Script's flaky OPTIONS-preflight handling). Content-Type defaults
@@ -610,13 +633,12 @@
     const data = await res.json();
     return Array.isArray(data) ? data : (data.records || []);
   }
-
   async function syncJudgments(silent){
     const url = getAppsScriptUrl();
     if(!url){ if(!silent) setAsStatus("尚未設定 Apps Script 網址"); return false; }
     if(!silent) setAsStatus("同步中…");
     try{
-      const localRecords = await getAll("judgments");
+      const localRecords = await getAllJudgments();
       const merged = await pushRemoteJudgments(url, localRecords);
       await clearStore("judgments");
       for(const r of merged){ const {id, ...rest} = r; await putRecord("judgments", rest); }
@@ -629,105 +651,94 @@
       return false;
     }
   }
-
   document.getElementById("asSaveBtn").addEventListener("click", saveAppsScriptUrlFromForm);
   document.getElementById("asSyncBtn").addEventListener("click", ()=> syncJudgments(false));
-
   /* ---------------------------------------------------------------
-     Completion matrix
+     Completion matrix — one small table per method
   ----------------------------------------------------------------*/
   async function renderMatrix(){
-    const all = await getAll("judgments");
+    const all = await getAllJudgments();
     const wrap = document.getElementById("matrixWrap");
     const operators = Array.from(new Set(all.map(r=>r.operator))).sort((a,b)=>a.localeCompare(b));
-
     if(operators.length===0){
       wrap.innerHTML = "<div class='hint'>尚無操作員判定資料，開始測試後會自動列出每位操作員的進度。</div>";
       document.getElementById("totalCount").textContent = 0;
       return;
     }
-
-    let html = "<table class='matrix'><thead><tr><th>Item</th>";
-    operators.forEach(op=> html += "<th colspan='3'>"+escapeHtml(op)+"</th>");
-    html += "</tr><tr><th></th>";
-    operators.forEach(()=> TRIALS.forEach(t=> html += "<th>T"+t+"</th>"));
-    html += "</tr></thead><tbody>";
-
-    for(const item of ITEMS){
-      const imgs = await getImagesForItem(item);
-      const total = imgs.length || 30;
-      html += "<tr><td class='itemcell'>"+item+"</td>";
-      for(const op of operators){
-        for(const t of TRIALS){
-          const count = all.filter(r=>r.item===item && r.operator===op && String(r.trial)===String(t)).length;
-          let cls = "none", label = "–";
-          if(count>0 && count>=total){ cls="done"; label="✓ "+count; }
-          else if(count>0){ cls="partial"; label=count+"/"+total; }
-          html += "<td class='"+cls+"'>"+label+"</td>";
+    let html = "";
+    for(const method of METHOD_NAMES){
+      html += `<div class="method-block"><div class="method-title">${escapeHtml(method)}</div>`;
+      html += "<table class='matrix'><thead><tr><th>Item</th>";
+      operators.forEach(op=> html += "<th colspan='3'>"+escapeHtml(op)+"</th>");
+      html += "</tr><tr><th></th>";
+      operators.forEach(()=> TRIALS.forEach(t=> html += "<th>T"+t+"</th>"));
+      html += "</tr></thead><tbody>";
+      for(const item of METHODS[method]){
+        const imgs = await getImagesForMethodItem(method, item);
+        const total = imgs.length || 30;
+        html += "<tr><td class='itemcell'>"+escapeHtml(item)+"</td>";
+        for(const op of operators){
+          for(const t of TRIALS){
+            const count = all.filter(r=>r.method===method && r.item===item && r.operator===op && String(r.trial)===String(t)).length;
+            let cls = "none", label = "–";
+            if(count>0 && count>=total){ cls="done"; label="✓ "+count; }
+            else if(count>0){ cls="partial"; label=count+"/"+total; }
+            html += "<td class='"+cls+"'>"+label+"</td>";
+          }
         }
+        html += "</tr>";
       }
-      html += "</tr>";
+      html += "</tbody></table></div>";
     }
-    html += "</tbody></table>";
     wrap.innerHTML = html;
     document.getElementById("totalCount").textContent = all.length;
   }
-
   /* ---------------------------------------------------------------
      Start test
   ----------------------------------------------------------------*/
-  const itemSelect = document.getElementById("itemSelect");
   const operatorInput = document.getElementById("operatorInput");
   const trialSelect = document.getElementById("trialSelect");
   const startBtn = document.getElementById("startBtn");
   const startHint = document.getElementById("startHint");
-
   const LAST_OPERATOR_KEY = "msa_kappa_last_operator";
   const lastOperator = localStorage.getItem(LAST_OPERATOR_KEY);
   if(lastOperator) operatorInput.value = lastOperator;
-
   let session = null;
-
   startBtn.addEventListener("click", async ()=>{
+    const method = methodSelect.value;
     const item = itemSelect.value;
     const operator = operatorInput.value.trim();
     const trial = trialSelect.value;
-
     if(!operator){
       startHint.textContent = "⚠ 請先輸入操作員姓名或代號。";
       operatorInput.focus();
       return;
     }
     localStorage.setItem(LAST_OPERATOR_KEY, operator);
-
-    const imgs = await getImagesForItem(item);
+    const imgs = await getImagesForMethodItem(method, item);
     if(imgs.length===0){
-      startHint.textContent = "⚠ 尚未載入「"+item+"」的影像，請確認網路連線正常，或按上方「重新載入影像」，仍失敗請用「管理者工具」手動匯入。";
+      startHint.textContent = "⚠ 尚未載入「"+method+" / "+item+"」的影像，請確認網路連線正常，或按上方「重新載入影像」，仍失敗請用「管理者工具」手動匯入。";
       return;
     }
-
-    const existing = await getJudgmentsForCombo(item, operator, trial);
+    const existing = await getJudgmentsForCombo(method, item, operator, trial);
     const doneIds = new Set(existing.map(r=>r.partId));
     let remaining = imgs.filter(im => !doneIds.has(im.partId));
-
     if(remaining.length===0){
       const ok = confirm(
-        "「"+item+" / "+operator+" / Trial "+trial+"」已完成全部 "+imgs.length+" 張判定。\n\n"+
+        "「"+method+" / "+item+" / "+operator+" / Trial "+trial+"」已完成全部 "+imgs.length+" 張判定。\n\n"+
         "按下「確定」將清除此組合的舊資料並重新測試一次；按「取消」返回設定頁。"
       );
       if(!ok) return;
-      await deleteJudgmentsForCombo(item, operator, trial);
+      await deleteJudgmentsForCombo(method, item, operator, trial);
       remaining = imgs;
     } else if(doneIds.size>0){
       toast("偵測到此組合已完成 "+doneIds.size+" 張，將接續剩餘 "+remaining.length+" 張");
     }
-
-    const stds = await getAll("standards");
+    const stds = await getAllRaw("standards");
     const stdMap = {};
-    stds.filter(s=>s.item===item).forEach(s=> stdMap[s.partId] = s.standard);
-
+    stds.filter(s=>s.method===method && s.item===item).forEach(s=> stdMap[s.partId] = s.standard);
     session = {
-      item, operator, trial,
+      method, item, operator, trial,
       queue: shuffle(remaining),
       idx: 0,
       total: imgs.length,
@@ -738,7 +749,6 @@
     startHint.textContent = "";
     startJudgeView();
   });
-
   /* ---------------------------------------------------------------
      Judge view
   ----------------------------------------------------------------*/
@@ -750,47 +760,41 @@
   const ngBtn = document.getElementById("ngBtn");
   const quitJudgeBtn = document.getElementById("quitJudgeBtn");
   const prevBtn = document.getElementById("prevBtn");
-
   function startJudgeView(){
-    judgeMeta.textContent = session.item + " · " + session.operator + " · Trial " + session.trial;
+    judgeMeta.textContent = session.method + " · " + session.item + " · " + session.operator + " · Trial " + session.trial;
     showCurrentImage();
     showView("view-judge");
   }
-
-  function findJudgment(all, item, partId, operator, trial){
-    return all.find(r => r.item===item && r.partId===partId && r.operator===operator && String(r.trial)===String(trial));
+  function findJudgment(all, method, item, partId, operator, trial){
+    return all.find(r => r.method===method && r.item===item && r.partId===partId && r.operator===operator && String(r.trial)===String(trial));
   }
-
   async function showCurrentImage(){
     if(session.currentUrl){ URL.revokeObjectURL(session.currentUrl); session.currentUrl = null; }
     const doneSoFar = session.answeredBefore + session.idx;
     judgeProgress.textContent = doneSoFar + " / " + session.total;
     progressFill.style.width = (100*doneSoFar/session.total).toFixed(1) + "%";
     prevBtn.disabled = (session.idx === 0);
-
     if(session.idx >= session.queue.length){ finishSession(); return; }
     const rec = session.queue[session.idx];
     const url = URL.createObjectURL(rec.blob);
     session.currentUrl = url;
     stageImg.src = url;
-
     // If this image was already answered (e.g. navigated back to it), show which one.
-    const all = await getAll("judgments");
-    const existing = findJudgment(all, session.item, rec.partId, session.operator, session.trial);
+    const all = await getAllJudgments();
+    const existing = findJudgment(all, session.method, session.item, rec.partId, session.operator, session.trial);
     okBtn.classList.toggle("chosen", !!existing && existing.response==="OK");
     ngBtn.classList.toggle("chosen", !!existing && existing.response==="NG");
   }
-
   let judgeLocked = false;
   async function recordAnswer(response){
     if(!session || judgeLocked) return;
     judgeLocked = true;
     const rec = session.queue[session.idx];
     const standard = session.standardsMap[rec.partId] || "";
-    const all = await getAll("judgments");
-    const existing = findJudgment(all, session.item, rec.partId, session.operator, session.trial);
+    const all = await getAllJudgments();
+    const existing = findJudgment(all, session.method, session.item, rec.partId, session.operator, session.trial);
     const payload = {
-      item: session.item, partId: rec.partId, operator: session.operator,
+      method: session.method, item: session.item, partId: rec.partId, operator: session.operator,
       trial: Number(session.trial), response, standard, ts: Date.now()
     };
     if(existing) payload.id = existing.id; // overwrite the same row instead of duplicating
@@ -799,25 +803,21 @@
     showCurrentImage();
     judgeLocked = false;
   }
-
   function goToPrevious(){
     if(!session || judgeLocked) return;
     if(session.idx === 0){ toast("已經是這輪的第一張，無法再上一頁"); return; }
     session.idx--;
     showCurrentImage();
   }
-
   okBtn.addEventListener("click", ()=>recordAnswer("OK"));
   ngBtn.addEventListener("click", ()=>recordAnswer("NG"));
   prevBtn.addEventListener("click", goToPrevious);
-
   document.addEventListener("keydown", (e)=>{
     if(!document.getElementById("view-judge").classList.contains("active")) return;
     if(e.key==="o" || e.key==="O" || e.key==="ArrowLeft"){ recordAnswer("OK"); }
     else if(e.key==="n" || e.key==="N" || e.key==="ArrowRight"){ recordAnswer("NG"); }
     else if(e.key==="Backspace" || e.key==="p" || e.key==="P"){ goToPrevious(); }
   });
-
   quitJudgeBtn.addEventListener("click", ()=>{
     if(confirm("確定要中止本輪測試嗎？已判定的資料已儲存，不會遺失。")){
       session = null;
@@ -825,11 +825,10 @@
       renderMatrix();
     }
   });
-
   function finishSession(){
-    const item=session.item, operator=session.operator, trial=session.trial, total=session.total;
+    const method=session.method, item=session.item, operator=session.operator, trial=session.trial, total=session.total;
     document.getElementById("doneSummary").textContent =
-      item + " / " + operator + " / Trial " + trial + " 共 " + total + " 張，判定全數完成。";
+      method + " / " + item + " / " + operator + " / Trial " + trial + " 共 " + total + " 張，判定全數完成。";
     session = null;
     showView("view-done");
     renderMatrix();
@@ -839,9 +838,7 @@
       });
     }
   }
-
   document.getElementById("backToSetupBtn").addEventListener("click", ()=> showView("view-setup"));
-
   /* ---------------------------------------------------------------
      Export / backup / reset
   ----------------------------------------------------------------*/
@@ -850,38 +847,36 @@
     if(/[",\n]/.test(v)) return '"' + v.replace(/"/g,'""') + '"';
     return v;
   }
-
   document.getElementById("exportCsvBtn").addEventListener("click", async ()=>{
     if(getAppsScriptUrl()){
       toast("正在從雲端取得最新合併資料…");
       await syncJudgments(true);
     }
-    const all = await getAll("judgments");
+    const all = await getAllJudgments();
     if(all.length===0){ toast("目前尚無任何判定資料"); return; }
     all.sort((a,b)=>{
-      return a.item.localeCompare(b.item) || a.partId.localeCompare(b.partId, undefined, {numeric:true})
+      return a.method.localeCompare(b.method) || a.item.localeCompare(b.item)
+        || a.partId.localeCompare(b.partId, undefined, {numeric:true})
         || a.operator.localeCompare(b.operator) || a.trial - b.trial;
     });
-    const header = ["Item","Part_ID","Operator","Trial","Response","Standard"];
-    const rows = all.map(r=>[r.item, r.partId, r.operator, r.trial, r.response, r.standard||""]);
-    const csv = "\uFEFF" + [header, ...rows].map(row=>row.map(csvEscape).join(",")).join("\r\n");
+    const header = ["Method","Item","Part_ID","Operator","Trial","Response","Standard"];
+    const rows = all.map(r=>[r.method, r.item, r.partId, r.operator, r.trial, r.response, r.standard||""]);
+    const csv = "﻿" + [header, ...rows].map(row=>row.map(csvEscape).join(",")).join("\r\n");
     downloadBlob(csv, "MSA_Kappa_判定資料_"+dateStamp()+".csv", "text/csv;charset=utf-8;");
   });
-
   document.getElementById("backupBtn").addEventListener("click", async ()=>{
-    const judgments = await getAll("judgments");
-    const standards = await getAll("standards");
-    const payload = JSON.stringify({ version:2, exportedAt: new Date().toISOString(), judgments, standards });
+    const judgments = await getAllJudgments();
+    const standards = await getAllRaw("standards");
+    const payload = JSON.stringify({ version:3, exportedAt: new Date().toISOString(), judgments, standards });
     downloadBlob(payload, "MSA_Kappa_備份_"+dateStamp()+".json", "application/json");
   });
-
   document.getElementById("restoreInput").addEventListener("change", async (e)=>{
     const file = e.target.files[0];
     if(!file) return;
     try{
       const data = JSON.parse(await file.text());
       if(Array.isArray(data.judgments)){
-        for(const r of data.judgments){ const {id, ...rest} = r; await putRecord("judgments", rest); }
+        for(const r of data.judgments){ const {id, ...rest} = r; await putRecord("judgments", normalizeJudgment_(rest)); }
       }
       if(Array.isArray(data.standards)){
         for(const s of data.standards){ await putRecord("standards", s); }
@@ -894,7 +889,6 @@
     }
     e.target.value = "";
   });
-
   document.getElementById("resetBtn").addEventListener("click", async ()=>{
     if(!confirm("這會清除這台裝置本機快取的影像、標準答案與判定紀錄（不會動到 Google 試算表裡的資料），且無法復原。\n建議先按「備份判定資料」再繼續。\n\n確定要清除嗎？")) return;
     await clearStore("images");
@@ -904,7 +898,6 @@
     renderMatrix();
     refreshImageBadges();
   });
-
   /* ---------------------------------------------------------------
      Init
   ----------------------------------------------------------------*/
@@ -916,7 +909,6 @@
   }).catch(err=>{
     alert("本機資料庫初始化失敗：" + err + "\n請確認瀏覽器允許此網頁使用儲存空間。");
   });
-
 })();
 </script>
 </body>
